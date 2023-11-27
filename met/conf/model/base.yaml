@@ -1,0 +1,14 @@
+# Defining the optimizer as a group default allows CLI override, e.g.
+# python train.py "optimizer@model.optimizer=sgd"
+# or via config "override scheduler@model.scheduler: cyclic"
+# See https://stackoverflow.com/questions/71438040/overwriting-hydra-configuration-groups-from-cli/71439510#71439510
+defaults:
+  - /optimizer@optimizer: adam
+  - /scheduler@scheduler: cyclic
+
+name:
+
+nn:
+  _target_:
+  loss_func:
+    _target_: torch.nn.MSELoss

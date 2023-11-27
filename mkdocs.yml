@@ -1,0 +1,39 @@
+site_name: met
+nav:
+  - Home: index.md
+theme:
+  name: material
+  features:
+    - content.code.copy
+    - content.code.annotate
+#  favicon: img/favicon.png
+#  logo: img/favicon.png
+repo_url: https://github.com/chris-santiago/met
+plugins:
+  - search
+  - autorefs
+  - table-reader
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [ . ]
+          options:
+            show_root_full_path: true
+            show_submodules: true
+            docstring_style: numpy
+            merge_init_into_class: false
+markdown_extensions:
+  # For Code Blocks
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  # For Admonitions
+  - admonition
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg

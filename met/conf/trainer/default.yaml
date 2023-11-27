@@ -1,0 +1,14 @@
+_target_: pytorch_lightning.Trainer
+max_epochs: 200
+accelerator: mps
+devices: 1
+logger:
+  _target_: pytorch_lightning.loggers.WandbLogger
+  project: met
+  # See https://docs.wandb.ai/ref/python/init
+  name: null
+  id: null
+  group: null
+  job_type: null
+  save_dir: ${hydra:runtime.output_dir}
+  log_model: True

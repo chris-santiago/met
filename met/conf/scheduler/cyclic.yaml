@@ -1,0 +1,5 @@
+_target_: torch.optim.lr_scheduler.CyclicLR
+_partial_: true
+base_lr: 0.001
+max_lr: 3.
+cycle_momentum: False

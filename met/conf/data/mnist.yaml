@@ -1,0 +1,25 @@
+batch_size: 256
+n_workers: 10  # Multirun launcher requires n_workers=0 otherwise it fails
+name: mnist
+
+train:
+  _target_: torch.utils.data.DataLoader
+  dataset:
+    _target_: met.data.MnistDataset
+    dataset:
+      _target_: met.data.get_mnist_dataset
+      train: True
+  batch_size: ${data.batch_size}
+  shuffle: True
+  num_workers: ${data.n_workers}
+
+valid:
+  _target_: torch.utils.data.DataLoader
+  dataset:
+    _target_: met.data.MnistDataset
+    dataset:
+      _target_: met.data.get_mnist_dataset
+      train: False
+  batch_size: ${data.batch_size}
+  shuffle: False
+  num_workers: ${data.n_workers}

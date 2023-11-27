@@ -1,0 +1,98 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "met"
+version = "0.1.0"
+description = "Exploring MET - Masked Encoding for Tabular Data"
+readme = "README.md"
+license = { text ="MIT License" }
+requires-python = ">=3.10"
+
+authors = [
+    { name="Chris Santiago", email="cjsantiago@gatech.edu"}
+]
+
+dependencies = [
+    "torch>=2.1.1",
+    "hydra-core>=1.3.2",
+    "pytorch-lightning>=2.1.2",
+    "torchmetrics>=1.2.0",
+    "torchvision>=0.16.1",
+    "rich>=13.7.0",
+    "wandb>=0.16.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.urls]
+"Sourcecode" = "https://github.com/chris-santiago/met"
+"Documentation" = "https://chris-santiago.github.io/met/"
+
+
+[tool.pdm]
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.3.1",
+    "pytest-cov>=4.0.0",
+    "coverage>=7.2.5",
+]
+qa = [
+    "ruff>=0.0.263",
+    "black>=23.3.0",
+    "pre-commit>=3.2.2",
+    "isort>=5.12.0",
+    "pre-commit-hooks>=4.4.0",
+    "pyright>=1.1.304",
+    "nox>=2023.4.22",
+]
+docs = [
+    "mkdocs-material>=9.1.8",
+    "mkdocstrings-python>=0.9.0",
+    "mkdocs-table-reader-plugin>=2.0",
+]
+
+jupyter = [
+    "ipykernel>=6.26.0",
+]
+
+
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["tests/*"]
+
+
+[tool.check-manifest]
+ignore = [
+    "docs",
+    "docs/**",
+    "notebooks",
+    "notebooks/**",
+    ".pre-commit-config.yaml",
+    ".gitignore",
+    "noxfile.py",
+    "mkdocs.yml",
+]
+
+
+[tool.isort]
+profile = "black"
+
+
+[tool.black]
+line-length = 100
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests/"]
+addopts = "--cov=met --cov-report=html --verbose"
+
+
+[tool.ruff]
+line-length = 100

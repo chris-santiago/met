@@ -1,0 +1,16 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /data: mnist
+  - override /model: base
+  - override /trainer: default
+  - override /callbacks: default
+  - override /scheduler@model.scheduler: cyclic
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["${data.name}", "${model.name}", "cyclicLR"]

@@ -1,0 +1,24 @@
+version: "3"
+
+# You can also ask Task to include .env like files by using the dotenv: setting:
+dotenv: ['.env', '{{.ENV}}/.env.', '{{.HOME}}/.env']
+
+# If `--` is given in the CLI, all following parameters are added to a special .CLI_ARGS variable.
+# This is useful to forward arguments to another command.
+
+tasks:
+
+  check-config:
+    desc: Check Hydra configuration
+    cmds:
+      - python met/train.py --cfg all --resolve {{.CLI_ARGS}}
+
+  wandb:
+    desc: Login to Weights & Biases
+    cmds:
+      - wandb login $WANDB_KEY
+
+  train:
+    desc: Train a model
+    cmds:
+      - python met/train.py {{.CLI_ARGS}}
