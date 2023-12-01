@@ -8,8 +8,11 @@ import met.constants
 
 constants = met.constants.Constants()
 
+# Transform to make tensor, scale, and flatten
+make_tabular = T.Compose([T.ToTensor(), T.Lambda(torch.flatten)])
 
-def get_mnist_dataset(train: bool = True, transform: Callable = T.ToTensor()):
+
+def get_mnist_dataset(train: bool = True, transform: Callable = make_tabular):
     return torchvision.datasets.MNIST(
         constants.DATA, train=train, download=True, transform=transform
     )
