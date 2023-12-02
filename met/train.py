@@ -5,9 +5,8 @@
 import hydra
 import omegaconf
 
+import met.callbacks
 import met.constants
-import met.eval
-import met.utils
 
 constants = met.constants.Constants()
 
@@ -21,7 +20,7 @@ def main(cfg):
     except omegaconf.errors.ConfigAttributeError:
         scheduler = None
     model = hydra.utils.instantiate(cfg.model.nn, optim=optim, scheduler=scheduler)
-    callbacks = met.utils.instantiate_callbacks(cfg.callbacks)
+    callbacks = met.callbacks.instantiate_callbacks(cfg.callbacks)
     trainer = hydra.utils.instantiate(cfg.trainer, callbacks=callbacks)
     trainer.fit(model=model, train_dataloaders=train_dl)
     trainer.checkpoint_callback.to_yaml()

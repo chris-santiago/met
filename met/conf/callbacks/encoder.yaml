@@ -1,0 +1,8 @@
+defaults:
+  - default
+
+early_stopping:
+  monitor: train-loss
+
+model_checkpoint:
+  monitor: train-loss

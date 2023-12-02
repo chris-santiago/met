@@ -13,7 +13,7 @@ hydra:
     subdir: ${hydra.job.override_dirname}/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
 defaults:
-  - data: mnist
+  - data: met
   - model: base
   - trainer: default
   - callbacks: encoder

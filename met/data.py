@@ -5,6 +5,7 @@ import torchvision.datasets
 import torchvision.transforms as T
 
 import met.constants
+import met.utils
 
 constants = met.constants.Constants()
 
@@ -35,3 +36,19 @@ class MnistDataset(torch.utils.data.Dataset):
         if self.transform:
             inputs = self.transform(inputs)
         return inputs, outputs
+
+
+class METDataset(MnistDataset):
+    def __init__(self, dataset, transform=None, pct_mask: float = 0.7):
+        self.dataset = dataset
+        self.transform = transform
+        self.pct_mask = pct_mask
+        super().__init__(dataset, transform)
+
+    def __getitem__(self, idx):
+        inputs, outputs = self.dataset.__getitem__(idx)
+        if self.transform:
+            inputs = self.transform(inputs)
+        unmasked_x, unmasked_idx, masked_idx = met.utils.mask_tensor_1d(inputs, self.pct_mask)
+        masked_x = torch.ones_like(masked_idx)
+        return unmasked_x, unmasked_idx, masked_x, masked_idx, inputs, outputs
