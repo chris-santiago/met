@@ -73,6 +73,11 @@ class MET(BaseModule):
         x_hat = self.transformer_head(outputs)
         return x_hat
 
+    def encode(self, x, idx):
+        with torch.no_grad():
+            inputs = self.embed_inputs(x, idx)
+            return self.transformer.encoder(inputs)
+
     def adversarial_step(self, unmasked_x, unmasked_idx, masked_x, masked_idx, original):
         opt = self.optimizers()
         unmasked_x.retain_grad()
