@@ -30,5 +30,5 @@ def mask_tensor_2d(x, pct_mask: float = 0.7, dim=1):
     unmasked_idx, _ = idx[:, n_masked:].sort(dim=dim)
     unmasked_x = torch.zeros(n_row, unmasked_idx.shape[dim])
     for i in range(n_row):
-        unmasked_x += x[i][unmasked_idx[i]]
+        unmasked_x[i] += x[i][unmasked_idx[i]]
     return unmasked_x, unmasked_idx, masked_idx
