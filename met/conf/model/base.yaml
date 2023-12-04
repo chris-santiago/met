@@ -4,11 +4,23 @@
 # See https://stackoverflow.com/questions/71438040/overwriting-hydra-configuration-groups-from-cli/71439510#71439510
 defaults:
   - /optimizer@optimizer: adam
-  - /scheduler@scheduler: cyclic
+  - /scheduler@scheduler: plateau
 
-name:
+name: MET
 
 nn:
-  _target_:
+  _target_: met.models.met.MET
+  num_embeddings: 784
+  embedding_dim: 64
+  p_mask: 0.70
+  n_head: 1
+  num_encoder_layers: 6
+  num_decoder_layers: 1
+  dim_feedforward: 64
+  dropout: 0.1
+  adver_steps: 2
+  lr_perturb: 0.0001
+  eps: 12
+  lam: 1.0
   loss_func:
     _target_: torch.nn.MSELoss
