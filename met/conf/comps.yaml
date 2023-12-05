@@ -1,0 +1,42 @@
+# Hydra automatically creates an output directory used to store log files and save yaml configs.
+# This directory can be configured by setting hydra.run.dir (for single hydra runs) or
+# hydra.sweep.dir/hydra.sweep.subdir (for multirun sweeps). At runtime, the path of the output
+# directory can be accessed via the hydra.runtime.output_dir variable.
+
+# Run output directory can contain user configuration variables:
+#     outputs/${now:%Y-%m-%d_%H-%M-%S}/opt:${optimizer.type}
+hydra:
+  run:
+    dir: outputs/linear-comps/${hydra.job.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: outputs/linear-comps/${hydra.job.name}/multirun
+    subdir: ${hydra.job.override_dirname}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+defaults:
+  # Overrides must be last
+  - override hydra/launcher: joblib
+
+seed: 784
+
+models:
+  met:
+    name: MET
+    # Latest Lightning version loads checkpoints from class, not instance
+#    module:
+#      _target_: met.models.met.MET
+#      num_embeddings: 784
+#      embedding_dim: 64
+#      p_mask: 0.70
+#      n_head: 1
+#      num_encoder_layers: 6
+#      num_decoder_layers: 1
+#      dim_feedforward: 64
+#      dropout: 0.1
+#      adver_steps: 2
+#      lr_perturb: 0.0001
+#      eps: 12
+#      lam: 1.0
+#      loss_func:
+#        _target_: torch.nn.MSELoss
+    cls: met.models.met.MET
+    ckpt_path: MET/train/2023-12-03/22-32-53/checkpoints/epoch=4-step=4690.ckpt

@@ -18,7 +18,7 @@ defaults:
   - trainer: default
   - callbacks: encoder
   # Use experiment configs to add some overrides
-  - experiment: null
+  - experiment: income
   # Overrides must be last
   - override hydra/launcher: joblib
 

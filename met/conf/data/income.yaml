@@ -1,13 +1,13 @@
-batch_size: 64
+batch_size: 128
 n_workers: 10  # Multirun launcher requires n_workers=0 otherwise it fails
-name: mnist
+name: adult-income
 
 train:
   _target_: torch.utils.data.DataLoader
   dataset:
     _target_: met.data.METDataset
     dataset:
-      _target_: met.data.get_mnist_dataset
+      _target_: met.data.get_income_dataset
       train: True
     pct_mask: 0.7
   batch_size: ${data.batch_size}

@@ -1,5 +1,5 @@
 _target_: pytorch_lightning.Trainer
-max_epochs: 200
+max_epochs: 5
 accelerator: mps
 devices: 1
 logger:
