@@ -1,4 +1,8 @@
+from typing import Optional
+
+import pandas as pd
 import torch
+from feature_engine.encoding import OrdinalEncoder
 
 import met.constants
 
@@ -32,3 +36,27 @@ def mask_tensor_2d(x, pct_mask: float = 0.7, dim=1):
     for i in range(n_row):
         unmasked_x[i] += x[i][unmasked_idx[i]]
     return unmasked_x, unmasked_idx, masked_idx
+
+
+def prep_adult_income(dir_path: Optional[str] = None):
+    if dir_path is None:
+        dir_path = constants.DATA.joinpath("adult")
+
+    train = pd.read_csv(dir_path.joinpath("adult.data"), header=None)
+    test = pd.read_csv(dir_path.joinpath("adult.test"), header=None)
+
+    cats = train.select_dtypes(include="object").columns
+    for df in [train, test]:
+        df.loc[:, cats] = df.loc[:, cats].map(str.strip)
+
+    od = OrdinalEncoder(encoding_method="arbitrary")
+    data = {
+        "x_train": od.fit_transform(train.iloc[:, :-1]),
+        "x_test": od.transform(test.iloc[:, :-1]),
+        "y_train": train.iloc[:, -1].str.contains(">50K").astype(int),
+        "y_test": test.iloc[:, -1].str.contains(">50K").astype(int),
+    }
+
+    for name, ds in data.items():
+        ds.to_csv(dir_path.joinpath(f"{name}.csv"), index=False, header=False)
+    return data

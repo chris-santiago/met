@@ -1,8 +1,10 @@
-from typing import Callable
+from typing import Callable, Optional
 
+import pandas as pd
 import torch.utils.data
 import torchvision.datasets
 import torchvision.transforms as T
+from sklearn.preprocessing import MinMaxScaler
 
 import met.constants
 import met.utils
@@ -16,6 +18,16 @@ make_tabular = T.Compose([T.ToTensor(), T.Lambda(torch.flatten)])
 def get_mnist_dataset(train: bool = True, transform: Callable = make_tabular):
     return torchvision.datasets.MNIST(
         constants.DATA, train=train, download=True, transform=transform
+    )
+
+
+def get_income_dataset(train: bool = True, transform: Optional[Callable] = None):
+    ds = {True: "train", False: "test"}
+    sc = MinMaxScaler()
+    x = pd.read_csv(constants.DATA.joinpath("adult", f"x_{ds[train]}.csv"), header=None)
+    y = pd.read_csv(constants.DATA.joinpath("adult", f"y_{ds[train]}.csv"), header=None)
+    return torch.utils.data.TensorDataset(
+        torch.tensor(sc.fit_transform(x), dtype=torch.float32), torch.tensor(y.values)
     )
 
 
