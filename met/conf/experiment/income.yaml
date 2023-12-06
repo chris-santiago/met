@@ -16,13 +16,13 @@ defaults:
 tags: ["${data.name}", "${model.name}"]
 
 trainer:
-  max_epochs: 10
+  max_epochs: 100
 
 model:
   nn:
     _target_: met.models.met.MET
-    num_embeddings: 784
-    embedding_dim: 64
+    num_embeddings: 14
+    embedding_dim: 32
     p_mask: 0.70
     n_head: 1
     num_encoder_layers: 3
@@ -35,3 +35,4 @@ model:
     lam: 1.0
     loss_func:
       _target_: torch.nn.MSELoss
+  name: MET-${model.nn.embedding_dim}
