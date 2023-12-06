@@ -91,7 +91,7 @@ def to_json(results: Dict, filepath: pathlib.Path):
             res = json.load(fp)
         res.append(results)
     else:
-        res = results
+        res = [results]
     with open(filepath, "w") as fp:
         json.dump(res, fp, indent=2)
 
