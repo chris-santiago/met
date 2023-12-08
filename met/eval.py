@@ -36,19 +36,11 @@ class Model:
             self.module = self.module.load_from_checkpoint(self.ckpt_path, map_location=device)
 
 
-def preprocess_data(model: Model, train_data: TensorDataset, test_data: TensorDataset):
-    x_train, y_train = train_data.tensors
-    x_test, y_test = test_data.tensors
-
-    y_train = y_train
-    y_test = y_test
-
-    x_train, idx_train, _ = mask_tensor_2d(x_train.flatten(1), pct_mask=0)
-    x_test, idx_test, _ = mask_tensor_2d(x_test.flatten(1), pct_mask=0)
-    x_train = model.module.encode(x_train, idx_train).flatten(1)
-    x_test = model.module.encode(x_test, idx_test).flatten(1)
-
-    return x_train, y_train, x_test, y_test
+def preprocess_data(model: Model, data: TensorDataset):
+    x, y = data.tensors
+    x, idx_train, _ = mask_tensor_2d(x.flatten(1), pct_mask=0)
+    x = model.module.encode(x, idx_train).flatten(1)
+    return x, y
 
 
 def evaluate_classifier(
@@ -99,9 +91,8 @@ def to_json(results: Dict, filepath: pathlib.Path):
 def main(ckpt_path: str):
     ckpt_path = str(constants.OUTPUTS.joinpath(ckpt_path))
     model = Model(MET, ckpt_path)
-    x_train, y_train, x_test, y_test = preprocess_data(
-        model, train_data=get_income_dataset(train=True), test_data=get_income_dataset(train=False)
-    )
+    x_train, y_train = preprocess_data(model, get_income_dataset(train=True))
+    x_test, y_test = preprocess_data(model, get_income_dataset(train=False))
     cls = LogisticRegression(max_iter=3000)
     results = evaluate_classifier(model, cls, x_train, y_train, x_test, y_test)
     to_json(results, constants.OUTPUTS.joinpath("results.json"))
