@@ -21,14 +21,22 @@ def get_mnist_dataset(train: bool = True, transform: Callable = make_tabular):
     )
 
 
-def get_income_dataset(train: bool = True, transform: Optional[Callable] = None):
+def get_dataset(dirname: str, train: bool = True, transform: Optional[Callable] = None):
     ds = {True: "train", False: "test"}
     sc = MinMaxScaler()
-    x = pd.read_csv(constants.DATA.joinpath("adult", f"x_{ds[train]}.csv"), header=None)
-    y = pd.read_csv(constants.DATA.joinpath("adult", f"y_{ds[train]}.csv"), header=None)
+    x = pd.read_csv(constants.DATA.joinpath(dirname, f"x_{ds[train]}.csv"), header=None)
+    y = pd.read_csv(constants.DATA.joinpath(dirname, f"y_{ds[train]}.csv"), header=None)
     return torch.utils.data.TensorDataset(
         torch.tensor(sc.fit_transform(x), dtype=torch.float32), torch.tensor(y.values)
     )
+
+
+def get_income_dataset(train: bool = True, transform: Optional[Callable] = None):
+    return get_dataset("adult", train, transform)
+
+
+def get_covertype_dataset(train: bool = True, transform: Optional[Callable] = None):
+    return get_dataset("covertype", train, transform)
 
 
 def scale_mnist(x: torch.Tensor) -> torch.Tensor:

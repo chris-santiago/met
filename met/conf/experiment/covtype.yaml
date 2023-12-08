@@ -1,0 +1,38 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /data: covtype
+  - override /model: base
+  - override /trainer: default
+  - override /callbacks: encoder
+  - override /scheduler@model.scheduler: cyclic
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["${data.name}", "${model.name}"]
+
+trainer:
+  max_epochs: 100
+
+model:
+  nn:
+    _target_: met.models.met.MET
+    num_embeddings: 55
+    embedding_dim: 32
+    p_mask: 0.70
+    n_head: 1
+    num_encoder_layers: 1
+    num_decoder_layers: 1
+    dim_feedforward: 64
+    dropout: 0.1
+    adver_steps: 3
+    lr_perturb: 0.01
+    eps: 4
+    lam: 1.0
+    loss_func:
+      _target_: torch.nn.MSELoss
+  name: MET-${model.nn.embedding_dim}
