@@ -25,6 +25,11 @@ pip install -e .
 
 ### Prerequisites
 
+#### Hydra
+
+This project uses [Hydra](https://hydra.cc/docs/intro/) for managing configuration CLI arguments. See `met/conf` for full
+configuration details.
+
 #### Task
 
 This project uses [Task](https://taskfile.dev/) as a task runner. Though the underlying Python
@@ -42,16 +47,19 @@ task: Available tasks for this project:
 * wandb:              Login to Weights & Biases
 ```
 
+Example: Train model and for `adult-income` dataset experiment
+
+*The `--` forwards CLI arguments to Hydra.*
+
+```bash
+task train -- experiment=income
+```
+
 #### PDM
 
 This project was built using [this cookiecutter](https://github.com/chris-santiago/cookie) and is
 setup to use [PDM](https://pdm.fming.dev/latest/) for dependency management, though it's not required
 for package installation.
-
-#### Hydra
-
-This project uses [Hydra](https://hydra.cc/docs/intro/) for managing configuration CLI arguments. See `met/conf` for full
-configuration details.
 
 #### Weights and Biases
 
