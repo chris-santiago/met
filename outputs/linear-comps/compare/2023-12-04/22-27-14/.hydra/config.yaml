@@ -1,0 +1,6 @@
+seed: 784
+models:
+  met:
+    name: MET
+    cls: met.models.met.MET
+    ckpt_path: MET/train/2023-12-03/22-32-53/checkpoints/epoch=4-step=4690.ckpt

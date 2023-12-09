@@ -1,0 +1,10 @@
+seed: 784
+models:
+  met-64:
+    name: MET-64
+    cls: met.models.met.MET
+    ckpt_path: MET/train/2023-12-04/21-39-07/checkpoints/epoch=48-step=12495.ckpt
+  met-32:
+    name: MET-32
+    cls: met.models.met.MET
+    ckpt_path: MET/train/2023-12-04/22-31-20/checkpoints/epoch=49-step=12750.ckpt
