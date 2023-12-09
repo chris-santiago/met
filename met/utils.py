@@ -15,6 +15,13 @@ def set_device():
     return device[torch.backends.mps.is_available()]
 
 
+def random_choice(x, pct_mask):
+    n = len(x)
+    n_choice = int((pct_mask * 100 * n) // 100)
+    idx = torch.randperm(n)
+    return idx[:n_choice]
+
+
 def mask_tensor_1d(x, pct_mask: float = 0.7):
     n = len(x)
     n_masked = int((pct_mask * 100 * n) // 100)
