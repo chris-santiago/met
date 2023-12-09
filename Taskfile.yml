@@ -22,3 +22,14 @@ tasks:
     desc: Train a model
     cmds:
       - python met/train.py {{.CLI_ARGS}}
+
+  compare:
+    desc: Compare using linear baselines
+    cmds:
+      - python met/compare.py {{.CLI_ARGS}}
+    sources:
+      - met/conf/comps.yaml
+      - met/compare.py
+    generates:
+      - outputs/comps/adult-income.json
+      - outputs/comps/cover-type.json
