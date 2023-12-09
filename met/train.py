@@ -37,7 +37,8 @@ def main(cfg):
         x_test, y_test = met.eval.preprocess_data(
             model, hydra.utils.instantiate(cfg.trainer.eval.test_data)
         )
-        results = met.eval.evaluate_classifier(model, cls, x_train, y_train, x_test, y_test)
+        acc_score, auc_score = met.eval.evaluate_classifier(cls, x_train, y_train, x_test, y_test)
+        results = met.eval.format_results(acc_score, auc_score, model.ckpt_path)
         meta.update(results)
         met.eval.to_json(results=meta, filepath=constants.OUTPUTS.joinpath("results.json"))
     except NotImplementedError:
