@@ -1,0 +1,24 @@
+name: adult-income
+
+dataset:
+  _target_: met.data.get_income_dataset
+  train: False
+
+models:
+  met-64:
+    name: MET-64
+    # Latest Lightning version loads checkpoints from class, not instance
+    cls: met.models.met.MET
+    ckpt_path: MET/train/2023-12-04/21-39-07/checkpoints/epoch=48-step=12495.ckpt
+
+  met-32:
+    name: MET-32
+    # Latest Lightning version loads checkpoints from class, not instance
+    cls: met.models.met.MET
+    ckpt_path: MET-32/train/2023-12-06/14-39-55/checkpoints/epoch=40-step=10455.ckpt
+
+  met-16:
+    name: MET-16
+    # Latest Lightning version loads checkpoints from class, not instance
+    cls: met.models.met.MET
+    ckpt_path: MET-16/train/2023-12-06/11-53-13/checkpoints/epoch=66-step=17085.ckpt
