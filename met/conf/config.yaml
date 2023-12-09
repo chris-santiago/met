@@ -27,14 +27,3 @@ tags: ["${data.name}", "${model.name}"]
 trainer:
   logger:
     tags: ${tags}
-
-eval:
-  cls:
-    _target_: sklearn.linear_model.LogisticRegression
-    max_iter: 3000
-  train_data:
-    _target_: met.data.get_income_dataset
-    train: True
-  test_data:
-    _target_: met.data.get_income_dataset
-    train: False
