@@ -4,7 +4,7 @@ defaults:
 eval:
   cls:
     _target_: sklearn.linear_model.LogisticRegression
-    max_iter: 3000
+    max_iter: 300
   train_data:
     _target_: met.data.get_income_dataset
     train: True
