@@ -33,8 +33,8 @@
   {
     "model": "MET-32",
     "metrics": {
-      "acc": 0.7812,
-      "auc": 0.6013
+      "acc": 0.6968,
+      "auc": 0.6964
     },
     "ckpt": "/Users/chrissantiago/Dropbox/GitHub/met/outputs/MET-32/train/2023-12-07/21-36-28/checkpoints/epoch=41-step=143010.ckpt"
   }
