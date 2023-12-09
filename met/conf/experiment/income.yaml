@@ -6,7 +6,7 @@
 defaults:
   - override /data: income
   - override /model: base
-  - override /trainer: default
+  - override /trainer: income
   - override /callbacks: encoder
   - override /scheduler@model.scheduler: cyclic
 
