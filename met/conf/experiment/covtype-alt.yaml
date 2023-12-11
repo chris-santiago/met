@@ -4,10 +4,10 @@
 # python train.py experiment=example
 
 defaults:
-  - override /data: income
+  - override /data: covtype-alt
   - override /model: base
   - override /trainer: default
-  - override /eval: income
+  - override /eval: covtype-alt
   - override /callbacks: encoder
   - override /scheduler@model.scheduler: cyclic
 
@@ -22,17 +22,17 @@ trainer:
 model:
   nn:
     _target_: met.models.met.MET
-    num_embeddings: 14
+    num_embeddings: 55
     embedding_dim: 32
     p_mask: 0.70
     n_head: 1
-    num_encoder_layers: 3
-    num_decoder_layers: 3
+    num_encoder_layers: 1
+    num_decoder_layers: 1
     dim_feedforward: 64
     dropout: 0.1
-    adver_steps: 2
-    lr_perturb: 0.001
-    eps: 6
+    adver_steps: 3
+    lr_perturb: 0.01
+    eps: 4
     lam: 1.0
     loss_func:
       _target_: torch.nn.MSELoss

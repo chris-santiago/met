@@ -17,8 +17,9 @@ defaults:
   - model: base
   - trainer: default
   - callbacks: encoder
+  - eval: covtype-alt
   # Use experiment configs to add some overrides
-  - experiment: covtype
+  - experiment: covtype-alt
   # Overrides must be last
   - override hydra/launcher: joblib
 

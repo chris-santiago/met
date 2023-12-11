@@ -6,7 +6,8 @@
 defaults:
   - override /data: covtype
   - override /model: base
-  - override /trainer: covtype
+  - override /trainer: default
+  - override /eval: covtype
   - override /callbacks: encoder
   - override /scheduler@model.scheduler: cyclic
 
