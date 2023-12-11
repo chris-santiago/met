@@ -30,12 +30,12 @@ def main(cfg):
     try:
         meta = {"model": cfg.model.name}
         model = met.eval.Model(model, trainer.checkpoint_callback.best_model_path)
-        cls = hydra.utils.instantiate(cfg.trainer.eval.cls)
+        cls = hydra.utils.instantiate(cfg.eval.cls)
         x_train, y_train = met.eval.preprocess_data(
-            model, hydra.utils.instantiate(cfg.trainer.eval.train_data)
+            model, hydra.utils.instantiate(cfg.eval.train_data)
         )
         x_test, y_test = met.eval.preprocess_data(
-            model, hydra.utils.instantiate(cfg.trainer.eval.test_data)
+            model, hydra.utils.instantiate(cfg.eval.test_data)
         )
         acc_score, auc_score = met.eval.evaluate_classifier(cls, x_train, y_train, x_test, y_test)
         results = met.eval.format_results(acc_score, auc_score, model.ckpt_path)
