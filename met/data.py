@@ -51,6 +51,10 @@ def get_covertype_dataset(train: bool = True, transform: Optional[Callable] = No
     return get_dataset("covertype", train, transform, **kwargs)
 
 
+def get_covtype_alt_dataset(train: bool = True, transform: Optional[Callable] = None, **kwargs):
+    return get_dataset("covtype-alt", train, transform, **kwargs)
+
+
 def scale_mnist(x: torch.Tensor) -> torch.Tensor:
     return x / 255
 
