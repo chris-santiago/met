@@ -1,0 +1,100 @@
+data:
+  batch_size: 256
+  n_workers: 10
+  name: cover-type
+  train:
+    _target_: torch.utils.data.DataLoader
+    dataset:
+      _target_: met.data.METDataset
+      dataset:
+        _target_: met.data.get_covtype_alt_dataset
+        train: true
+      pct_mask: 0.7
+    batch_size: ${data.batch_size}
+    shuffle: true
+    num_workers: ${data.n_workers}
+model:
+  optimizer:
+    _target_: torch.optim.Adam
+    _partial_: true
+    lr: 0.001
+    betas:
+    - 0.9
+    - 0.999
+    weight_decay: 0
+  scheduler:
+    _target_: torch.optim.lr_scheduler.CyclicLR
+    _partial_: true
+    base_lr: 0.001
+    max_lr: 3.0
+    cycle_momentum: false
+  name: MET-${model.nn.embedding_dim}
+  nn:
+    _target_: met.models.met.MET
+    num_embeddings: 55
+    embedding_dim: 32
+    p_mask: 0.7
+    n_head: 1
+    num_encoder_layers: 1
+    num_decoder_layers: 1
+    dim_feedforward: 64
+    dropout: 0.1
+    adver_steps: 3
+    lr_perturb: 0.01
+    eps: 4
+    lam: 1.0
+    loss_func:
+      _target_: torch.nn.MSELoss
+trainer:
+  _target_: pytorch_lightning.Trainer
+  max_epochs: 100
+  accelerator: mps
+  devices: 1
+  logger:
+    _target_: pytorch_lightning.loggers.WandbLogger
+    project: met
+    name: null
+    id: null
+    group: null
+    job_type: null
+    save_dir: ${hydra:runtime.output_dir}
+    log_model: true
+    tags: ${tags}
+callbacks:
+  model_summary:
+    _target_: pytorch_lightning.callbacks.RichModelSummary
+  progress_bar:
+    _target_: pytorch_lightning.callbacks.RichProgressBar
+    refresh_rate: 5
+    leave: true
+  early_stopping:
+    _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: train-loss
+    min_delta: 0.001
+    patience: 10
+    check_on_train_epoch_end: true
+  model_checkpoint:
+    _target_: pytorch_lightning.callbacks.ModelCheckpoint
+    dirpath: ${hydra:runtime.output_dir}/checkpoints
+    monitor: train-loss
+    save_top_k: 1
+    save_on_train_epoch_end: true
+eval:
+  cls:
+    _target_: sklearn.linear_model.LogisticRegression
+    max_iter: 300
+    C: 0.1
+    tol: 0.001
+    solver: saga
+    verbose: 1
+    n_jobs: 4
+  train_data:
+    _target_: met.data.get_covtype_alt_dataset
+    train: true
+    subset: 0.25
+  test_data:
+    _target_: met.data.get_covtype_alt_dataset
+    train: false
+tags:
+- ${data.name}
+- ${model.name}
